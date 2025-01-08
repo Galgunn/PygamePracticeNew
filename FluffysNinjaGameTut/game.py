@@ -55,7 +55,7 @@ class Game:
             self.clouds.render(self.display, offset=render_scroll)
 
             self.tilemap.render(self.display, offset=render_scroll)
-            self.tilemap.load('map.json')
+            self.tilemap.load('FluffysNinjaGameTut/map.json')
             
             self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render(self.display, offset=render_scroll)
