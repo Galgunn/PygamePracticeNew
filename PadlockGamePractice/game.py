@@ -15,15 +15,14 @@ class Game():
         self.display = pygame.Surface((WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
 
         self.assets = {
-            'player': load_image('player/idle/right/0.png'),
-            'brick': load_image('tiles/brick/0.png'),
-            'wall': load_image('tiles/wall/0.png'),
-            'player/idle/down': Animation(load_images('player/idle/down'), frame_dur=10),
-            'player/idle/right': Animation(load_images('player/idle/right'), frame_dur=10),
-            'player/idle/up': Animation(load_images('player/idle/up'), frame_dur=10),
-            'player/walk/down': Animation(load_images('player/walk/down'), frame_dur=6),
-            'player/walk/right': Animation(load_images('player/walk/right'), frame_dur=6),
-            'player/walk/up': Animation(load_images('player/walk/up'), frame_dur=6),
+            'player': load_image('player/idle/right/00.png'),
+            'wall': load_image('tiles/building_edge/00.png'),
+            'player/idle/down': Animation(load_images('player/idle/down'), frame_dur=12),
+            'player/idle/right': Animation(load_images('player/idle/right'), frame_dur=12),
+            'player/idle/up': Animation(load_images('player/idle/up'), frame_dur=12),
+            'player/walk/down': Animation(load_images('player/walk/down'), frame_dur=10),
+            'player/walk/right': Animation(load_images('player/walk/right'), frame_dur=10),
+            'player/walk/up': Animation(load_images('player/walk/up'), frame_dur=10),
         }
 
         self.player = Player(self, (0, 0), (5, 14))
@@ -36,7 +35,7 @@ class Game():
     def run(self):
         self.run = True
         while self.run:
-            self.display.fill((0, 20, 50))
+            self.display.fill((100, 200, 100))
 
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30

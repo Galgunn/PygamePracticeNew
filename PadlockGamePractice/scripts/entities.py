@@ -10,7 +10,7 @@ class Entity:
 
         #Animation
         self.action = ''
-        self.anim_offset = (1, 0)
+        self.anim_offset = (-2, -1)
         self.flip = False
         self.set_action('idle/right')
 
@@ -68,7 +68,8 @@ class Entity:
         self.animation.update()
 
     def render(self, surf, offset=(0, 0)):
-        surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos[0], self.pos[1]))
+        #pygame.draw.rect(surf, 'green', pygame.FRect(self.pos[0] - offset[0], self.pos[1] - offset[1], self.size[0], self.size[1]))
+        surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))
 
 class Player(Entity):
     def __init__(self, game, pos, size):

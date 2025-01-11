@@ -1,6 +1,6 @@
 import pygame, os
 
-BASE_IMG_PATH = 'Practice/assets/'
+BASE_IMG_PATH = 'PadlockGamePractice/assets/images/'
 
 def load_image(path):
     img = pygame.image.load(BASE_IMG_PATH + path).convert()
