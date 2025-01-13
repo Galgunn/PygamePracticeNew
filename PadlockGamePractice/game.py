@@ -16,7 +16,8 @@ class Game():
 
         self.assets = {
             'player': load_image('player/idle/right/00.png'),
-            'wall': load_image('tiles/building_edge/00.png'),
+            'wall': load_images('tiles/wall'),
+            'floor': load_images('tiles/floor'),
             'player/idle/down': Animation(load_images('player/idle/down'), frame_dur=12),
             'player/idle/right': Animation(load_images('player/idle/right'), frame_dur=12),
             'player/idle/up': Animation(load_images('player/idle/up'), frame_dur=12),
