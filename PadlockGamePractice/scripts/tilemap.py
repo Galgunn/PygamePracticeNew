@@ -1,4 +1,4 @@
-import pygame
+import pygame, json
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)]
 PHYSIC_TILES = {'wall'}
@@ -9,10 +9,6 @@ class Tilemap:
         self.tile_size = tile_size
         self.tilemap = {}
         self.offgrid = []
-
-        for i in range(10):
-            self.tilemap['10;' + str(5 + i)] = {'type': 'wall', 'variant': 0,  'pos': (10, 5 + i)}
-            self.tilemap['20;' + str(5 + i)] = {'type': 'wall', 'variant': 1,  'pos': (20, 5 + i)}
 
     def tiles_around(self, pos) -> list:
         tiles = []
@@ -29,6 +25,20 @@ class Tilemap:
             if tile['type'] in PHYSIC_TILES:
                 rects.append(pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
         return rects
+    
+    def save(self, path):
+        f = open(path, 'w')
+        json.dump({'tilemap': self.tilemap, 'tile_size': self.tile_size, 'offgrid': self.offgrid}, f)
+        f.close()
+
+    def load(self, path):
+        f = open(path, 'r')
+        map_data = json.load(f)
+        f.close()
+
+        self.tilemap = map_data['tilemap']
+        self.tile_size = map_data['tile_size']
+        self.offgrid = map_data['offgrid']
 
     def render(self, surf, offset=(0, 0)):
         for tile in self.offgrid:

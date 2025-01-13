@@ -43,6 +43,7 @@ class Game():
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
             self.tilemap.render(self.display, offset=render_scroll)
+            self.tilemap.load('PadlockGamePractice/map.json')
 
             self.player.update(self.tilemap, (self.movement[1] - self.movement[0], self.movement[3] - self.movement[2]))
             self.player.render(self.display, offset=render_scroll)
