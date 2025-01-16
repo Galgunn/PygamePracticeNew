@@ -26,7 +26,7 @@ class Game():
             'player/walk/up': Animation(load_images('player/walk/up'), frame_dur=10),
         }
 
-        self.player = Player(self, (0, 0), (5, 14))
+        self.player = Player(self, (0, 0), (5, 5))
         self.movement = [False, False, False, False]
 
         self.tilemap = Tilemap(self, 16)

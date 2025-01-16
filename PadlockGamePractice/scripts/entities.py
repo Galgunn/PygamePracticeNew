@@ -10,7 +10,7 @@ class Entity:
 
         #Animation
         self.action = ''
-        self.anim_offset = (-2, -1)
+        self.anim_offset = (-2, -10)
         self.flip = False
         self.set_action('idle/right')
 
