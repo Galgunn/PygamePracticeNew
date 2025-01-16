@@ -31,7 +31,13 @@ class Game():
 
         self.tilemap = Tilemap(self, 16)
 
+        self.level = 0
+        self.load_level(self.level)
+
         self.scroll = [0, 0]
+
+    def load_level(self, map_id):
+        self.tilemap.load('PadlockGamePractice/assets/rooms/' + str(map_id) + '.json')
 
     def run(self):
         self.run = True
@@ -43,7 +49,6 @@ class Game():
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
             self.tilemap.render(self.display, offset=render_scroll)
-            self.tilemap.load('PadlockGamePractice/map.json')
 
             self.player.update(self.tilemap, (self.movement[1] - self.movement[0], self.movement[3] - self.movement[2]))
             self.player.render(self.display, offset=render_scroll)
@@ -62,6 +67,10 @@ class Game():
                         self.movement[2] = True
                     if event.key == pygame.K_DOWN:
                         self.movement[3] = True
+                    # if event.key == pygame.K_1:
+                    #     self.level = 1
+                    #     self.load_level(self.level)
+
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT:
                         self.movement[0] = False

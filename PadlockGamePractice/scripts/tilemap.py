@@ -2,6 +2,7 @@ import pygame, json
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)]
 PHYSIC_TILES = {'wall'}
+BASE_MAP_PATH = 'PadlockGamePractice/assets/rooms/'
 
 class Tilemap:
     def __init__(self, game, tile_size=16):

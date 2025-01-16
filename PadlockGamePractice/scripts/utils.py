@@ -1,5 +1,6 @@
 import pygame, os
 
+BASE_MAP_PATH = 'PadlockGamePractice/assets/rooms'
 BASE_IMG_PATH = 'PadlockGamePractice/assets/images/'
 
 def load_image(path):
@@ -12,6 +13,12 @@ def load_images(path):
     for img_name in sorted(os.listdir(BASE_IMG_PATH + path)):
         images.append(load_image(path + '/' + img_name))
     return images
+
+def load_maps():
+    maps = []
+    for map_name in os.listdir(BASE_MAP_PATH):
+        maps.append(map_name.split('.')[0])
+    return maps
 
 class Spritesheet():
     def __init__(self, img, size):

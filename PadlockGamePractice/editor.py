@@ -1,9 +1,10 @@
 import sys
 import pygame
-from scripts.utils import load_images
+from scripts.utils import load_images, load_maps
 from scripts.tilemap import Tilemap
 
 RENDER_SCALE = 2.0
+BASE_MAP_PATH = 'PadlockGamePractice/assets/rooms/'
 
 class Editor:
     def __init__(self):
@@ -20,14 +21,22 @@ class Editor:
             'wall': load_images('tiles/wall'),
         }
 
+        self.rooms = {}
+        maps = load_maps()
+        x = 0
+        for room in maps:
+            self.rooms[room] = x
+            x += 1
+
         # Camera movement
         self.movement = [False, False, False, False]
         
         self.tilemap = Tilemap(self, tile_size=16)
 
         # Loading of tilemap
+        self.level = 0
         try:
-            self.tilemap.load('map.json')
+            self.load_level(self.level)
         except FileNotFoundError:
             pass
 
@@ -45,6 +54,9 @@ class Editor:
         self.shift = False
         # Grid placement toggle
         self.ongrid = True
+
+    def load_level(self, map_id):
+        self.tilemap.load('PadlockGamePractice/assets/rooms/' + str(map_id) + '.json')
         
     def run(self):
         while True:
@@ -131,7 +143,6 @@ class Editor:
                 if event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
                         self.left_click = False
-                        print(self.tilemap.tilemap)
                     if event.button == 3:
                         self.right_click = False
                 
@@ -148,11 +159,22 @@ class Editor:
                         self.shift = True
                     if event.key == pygame.K_g:
                         self.ongrid = not self.ongrid
-                    if event.key == pygame.K_t:
-                        self.tilemap.autotile()
+                    # if event.key == pygame.K_t:
+                    #     self.tilemap.autotile()
                     if event.key == pygame.K_e:
-                        self.tilemap.save('map.json')
-                
+                        map_name = str(input('Save map name: '))
+                        if map_name not in self.rooms:
+                            levels = self.rooms.values
+                            self.room[map_name] = levels[-1] + 1
+                        self.tilemap.save(BASE_MAP_PATH + map_name + '.json')
+                    if event.key == pygame.K_o:
+                        map_name = str(input('load map name: '))
+                        if map_name in self.rooms:
+                            self.level = self.rooms[map_name]
+                            self.load_level(self.level)
+                    if event.key == pygame.K_i:
+                        print(self.rooms)
+                                    
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a:
                         self.movement[0] = False
