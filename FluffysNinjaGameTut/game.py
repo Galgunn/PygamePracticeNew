@@ -29,7 +29,8 @@ class Game:
             'player/jump': Animation(load_images('entities/player/jump')),
             'player/run': Animation(load_images('entities/player/run'), img_dur=4),
             'player/slide': Animation(load_images('entities/player/slide')),
-            'player/wall_slide': Animation(load_images('entities/player/wall_slide'))
+            'player/wall_slide': Animation(load_images('entities/player/wall_slide')),
+            'particle/leaf': Animation(load_images('particles/leaf'))
         }
 
         self.clouds = Clouds(self.assets['clouds'], count=16)
@@ -37,6 +38,13 @@ class Game:
         self.player = Player(self, (50, 50), (8, 15))
         
         self.tilemap = Tilemap(self, tile_size=16)
+        self.tilemap.load('FluffysNinjaGameTut/map.json')
+
+        # particles
+        self.leaf_spawners = []
+        for tree in self.tilemap.extract([('large_decor', 2)], keep=True):
+            self.leaf_spawners.append(pygame.FRect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 13))
+            print(self.leaf_spawners)
 
         # Camera
         self.scroll = [0, 0]
@@ -55,7 +63,6 @@ class Game:
             self.clouds.render(self.display, offset=render_scroll)
 
             self.tilemap.render(self.display, offset=render_scroll)
-            self.tilemap.load('FluffysNinjaGameTut/map.json')
             
             self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render(self.display, offset=render_scroll)
