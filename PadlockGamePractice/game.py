@@ -18,6 +18,7 @@ class Game():
             'player': load_image('player/idle/right/00.png'),
             'wall': load_images('tiles/wall'),
             'floor': load_images('tiles/floor'),
+            'utility': load_images('tiles/utility'),
             'player/idle/down': Animation(load_images('player/idle/down'), frame_dur=12),
             'player/idle/right': Animation(load_images('player/idle/right'), frame_dur=12),
             'player/idle/up': Animation(load_images('player/idle/up'), frame_dur=12),
@@ -25,19 +26,24 @@ class Game():
             'player/walk/right': Animation(load_images('player/walk/right'), frame_dur=10),
             'player/walk/up': Animation(load_images('player/walk/up'), frame_dur=10),
         }
-
+            
         self.player = Player(self, (0, 0), (5, 5))
         self.movement = [False, False, False, False]
 
         self.tilemap = Tilemap(self, 16)
+        self.load_level('living_room')
 
-        self.level = 0
-        self.load_level(self.level)
+        spawn_points = []
+        for spawn_point in self.tilemap.extract([('utility', 0)], keep=False):
+            spawn_points.append(pygame.FRect(spawn_point['pos'][0], spawn_point['pos'][1], 16, 16))
+        
+        self.player.pos[0] = (spawn_points[0].centerx - 2.5)
+        self.player.pos[1] = (spawn_points[0].centery -2.5)
 
         self.scroll = [0, 0]
 
-    def load_level(self, map_id):
-        self.tilemap.load('PadlockGamePractice/assets/rooms/' + str(map_id) + '.json')
+    def load_level(self, map_name):
+        self.tilemap.load('PadlockGamePractice/assets/maps/' + str(map_name) + '.json')
 
     def run(self):
         self.run = True

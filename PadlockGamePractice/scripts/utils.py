@@ -1,17 +1,17 @@
 import pygame, os
 
-BASE_MAP_PATH = 'PadlockGamePractice/assets/rooms'
+BASE_MAP_PATH = 'PadlockGamePractice/assets/maps'
 BASE_IMG_PATH = 'PadlockGamePractice/assets/images/'
 
-def load_image(path):
+def load_image(path, colorkey=(0, 0, 0)):
     img = pygame.image.load(BASE_IMG_PATH + path).convert()
-    img.set_colorkey((0, 0, 0))
+    img.set_colorkey(colorkey)
     return img
 
-def load_images(path):
+def load_images(path, colorkey=(0, 0, 0)):
     images = []
     for img_name in sorted(os.listdir(BASE_IMG_PATH + path)):
-        images.append(load_image(path + '/' + img_name))
+        images.append(load_image(path + '/' + img_name, colorkey))
     return images
 
 def load_maps():

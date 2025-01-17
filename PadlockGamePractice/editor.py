@@ -1,10 +1,10 @@
 import sys
 import pygame
-from scripts.utils import load_images, load_maps
+from scripts.utils import load_image, load_images, load_maps
 from scripts.tilemap import Tilemap
 
 RENDER_SCALE = 2.0
-BASE_MAP_PATH = 'PadlockGamePractice/assets/rooms/'
+BASE_MAP_PATH = 'PadlockGamePractice/assets/maps/'
 
 class Editor:
     def __init__(self):
@@ -17,9 +17,10 @@ class Editor:
         self.assets = {
             'floor': load_images('tiles/floor'),
             'wall': load_images('tiles/wall'),
+            'utility': load_images('tiles/utility', (5, 5, 5))
         }
-        self.rooms = {}
         
+        self.rooms = {}
         maps = load_maps()
         level = 0
         for room in maps:
@@ -30,13 +31,6 @@ class Editor:
         self.movement = [False, False, False, False]
         
         self.tilemap = Tilemap(self, tile_size=16)
-
-        # Loading of tilemap
-        self.level = 0
-        try:
-            self.load_level(self.level)
-        except FileNotFoundError:
-            pass
 
         # Camera offset
         self.scroll = [0, 0]
@@ -54,11 +48,11 @@ class Editor:
         self.ongrid = True
 
     def load_level(self, map_id):
-        self.tilemap.load('PadlockGamePractice/assets/rooms/' + str(map_id) + '.json')
+        self.tilemap.load(BASE_MAP_PATH + str(map_id) + '.json')
         
     def run(self):
         while True:
-            self.display.fill((0, 0, 0))
+            self.display.fill((225, 225, 225))
 
             # Camera movement
             self.scroll[0] += (self.movement[1] - self.movement[0]) * 2
@@ -172,7 +166,8 @@ class Editor:
                         if map_name in self.rooms:
                             self.load_level(map_name)
                     if event.key == pygame.K_i:
-                        print(self.rooms)
+                        print(f"TileMap: {self.tilemap.tilemap}")
+                        print(f"Offgrid_tiles: {self.tilemap.offgrid}")
                                     
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a:
