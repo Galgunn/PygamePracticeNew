@@ -13,20 +13,18 @@ class Editor:
         pygame.display.set_caption('Editor')
         self.screen = pygame.display.set_mode((640, 480))
         self.display = pygame.Surface((320, 240))
-
         self.clock = pygame.time.Clock()
-        
         self.assets = {
             'floor': load_images('tiles/floor'),
             'wall': load_images('tiles/wall'),
         }
-
         self.rooms = {}
+        
         maps = load_maps()
-        x = 0
+        level = 0
         for room in maps:
-            self.rooms[room] = x
-            x += 1
+            self.rooms[room] = level
+            level += 1
 
         # Camera movement
         self.movement = [False, False, False, False]
@@ -163,15 +161,16 @@ class Editor:
                     #     self.tilemap.autotile()
                     if event.key == pygame.K_e:
                         map_name = str(input('Save map name: '))
+                        if not self.rooms:
+                            self.rooms[map_name] = 0
                         if map_name not in self.rooms:
-                            levels = self.rooms.values
-                            self.room[map_name] = levels[-1] + 1
+                            levels = list(self.rooms.values())
+                            self.rooms[map_name] = levels[-1] + 1
                         self.tilemap.save(BASE_MAP_PATH + map_name + '.json')
                     if event.key == pygame.K_o:
                         map_name = str(input('load map name: '))
                         if map_name in self.rooms:
-                            self.level = self.rooms[map_name]
-                            self.load_level(self.level)
+                            self.load_level(map_name)
                     if event.key == pygame.K_i:
                         print(self.rooms)
                                     

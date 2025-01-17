@@ -16,10 +16,14 @@
 
 # print(test)
 
-import os
+# import os
 
-maps = []
-for map_name in os.listdir('PadlockGamePractice/assets/rooms'):
-    maps.append(map_name.split('.')[0])
+# maps = []
+# for map_name in os.listdir('PadlockGamePractice/assets/rooms'):
+#     maps.append(map_name.split('.')[0])
 
-print(maps)
+# print(maps)
+
+test_dict = {'lol': 0}
+val = list(test_dict.values())
+print(val[-1])
