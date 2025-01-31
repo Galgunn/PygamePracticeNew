@@ -28,20 +28,10 @@ class Game():
         }
             
         self.tilemap = Tilemap(self, 16)
-        self.load_level('kitchen')
-
-        spawn_points = []
-        for loc in self.tilemap.spawn_map:
-            spawn_point = self.tilemap.spawn_map[loc]
-            spawn_points.append(pygame.FRect(spawn_point['pos'][0] * 16, spawn_point['pos'][1] * 16, 16, 16))
-        print(spawn_points)
+        self.load_level('living_room')
         
-        self.player = Player(self, (spawn_points[0].centerx, spawn_points[0].centery), (5, 5))
+        self.player = Player(self, (0, 0), (5, 5))
         self.movement = [False, False, False, False]
-        print(self.player.pos)
-        # pos is key
-        # Want to get player rect center and place it on the center of the spawn tile rect inside of spawn_points
-        self.player.pos
 
         self.scroll = [0, 0]
 

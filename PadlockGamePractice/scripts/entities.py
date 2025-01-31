@@ -17,10 +17,16 @@ class Entity:
     def rect(self):
         return pygame.FRect(self.pos[0], self.pos[1], self.size[0], self.size[1])
     
+    def spawn_rects(self, tilemap):
+        return tilemap.utilities_rect_around(self.pos)
+    
     def set_action(self, action):
         if self.action != action:
             self.action = action
             self.animation = self.game.assets[self.type + '/' + self.action].copy()
+
+    def move_next_room(self, map_name):
+        self.game.load_level(map_name)
             
     def normalize(self, movement):
         magnitude = math.sqrt(pow(movement[0], 2) + pow(movement[1], 2))
@@ -47,6 +53,14 @@ class Entity:
                     entity_rect.left = rect.right
                     self.collisions['left'] = True
                 self.pos[0] = entity_rect.x
+        for rect in tilemap.utilities_rect_around(self.pos):
+            if entity_rect.colliderect(rect):
+                if frame_movement[0] < 0:
+                    if entity_rect.right < rect.centerx:
+                        self.move_next_room('kitchen')
+                if frame_movement[0] > 0:
+                    if entity_rect.left > rect.centerx:
+                        self.move_next_room('living_room')
                     
         self.pos[1] += frame_movement[1]
         entity_rect = self.rect()
@@ -64,7 +78,6 @@ class Entity:
             self.flip = False
         if frame_movement[0] < 0:
             self.flip = True
-
         self.animation.update()
 
     def render(self, surf, offset=(0, 0)):
