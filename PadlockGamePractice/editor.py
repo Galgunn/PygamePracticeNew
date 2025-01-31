@@ -64,6 +64,8 @@ class Editor:
             current_tile_img = self.assets[self.tile_list[self.tile_group]][self.tile_variant].copy()
             current_tile_img.set_alpha(100)
 
+            print(f'{}')
+
             mpos = pygame.mouse.get_pos()
             # Scale down due to scaling in our blitting
             mpos = (mpos[0] / RENDER_SCALE, mpos[1] / RENDER_SCALE)
@@ -83,6 +85,8 @@ class Editor:
             if self.left_click and self.ongrid:
                 # Add dict of tile to tilemap variable in Tilemap
                 self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
+                # if current_tile_img == self.assets[self.tile_list[2]][0]:
+                #     print('true')
 
             # Remove tiles pixel grid tiles
             if self.right_click:
@@ -117,6 +121,7 @@ class Editor:
                         if event.button == 4:
                             # Modulus loop trick
                             self.tile_variant = (self.tile_variant - 1) % len(self.assets[self.tile_list[self.tile_group]])
+                            
                         if event.button == 5:
                             # Modulus loop trick
                             self.tile_variant = (self.tile_variant + 1) % len(self.assets[self.tile_list[self.tile_group]])
@@ -124,6 +129,7 @@ class Editor:
                         if event.button == 4:
                             # Modulus loop trick
                             self.tile_group = (self.tile_group - 1) % len(self.tile_list)
+                            print(self.tile_group)
                             # To avoid out of index error
                             self.tile_variant = 0
                         if event.button == 5:

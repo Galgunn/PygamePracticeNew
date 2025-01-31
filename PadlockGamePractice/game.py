@@ -31,7 +31,7 @@ class Game():
         self.movement = [False, False, False, False]
 
         self.tilemap = Tilemap(self, 16)
-        self.load_level('living_room')
+        self.load_level('kitchen')
 
         spawn_points = []
         for spawn_point in self.tilemap.extract([('utility', 0)], keep=False):
