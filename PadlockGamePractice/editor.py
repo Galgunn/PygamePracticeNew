@@ -44,6 +44,7 @@ class Editor:
         self.left_click = False
         self.right_click = False
         self.shift = False
+        self.spawnner_tile_selected = False
         # Grid placement toggle
         self.ongrid = True
 
@@ -59,12 +60,10 @@ class Editor:
             self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
-            self.tilemap.render(self.display, offset=render_scroll)
+            self.tilemap.render_editor(self.display, offset=render_scroll)
 
             current_tile_img = self.assets[self.tile_list[self.tile_group]][self.tile_variant].copy()
             current_tile_img.set_alpha(100)
-
-            print(f'{}')
 
             mpos = pygame.mouse.get_pos()
             # Scale down due to scaling in our blitting
@@ -81,18 +80,28 @@ class Editor:
             else:
                 self.display.blit(current_tile_img, mpos)
 
-            # Add tile to tilemap
+            '''
+            Adding ongrid tiles to tilemap and spawn_map
+            '''
             if self.left_click and self.ongrid:
-                # Add dict of tile to tilemap variable in Tilemap
-                self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
-                # if current_tile_img == self.assets[self.tile_list[2]][0]:
-                #     print('true')
+                # Add dict of spawn tile to spawn_map
+                if self.spawnner_tile_selected:
+                    self.tilemap.spawn_map[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
+                # Add dict of tile to tilemap
+                else:
+                    self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
+            
 
-            # Remove tiles pixel grid tiles
+            '''
+            Removing ongrid and offgrid tiles
+            '''
             if self.right_click:
+                # Remove grid tiles from tilemap and spawn_map
                 tile_loc = str(tile_pos[0]) + ';' + str(tile_pos[1])
                 if tile_loc in self.tilemap.tilemap:
                     del self.tilemap.tilemap[tile_loc]
+                if tile_loc in self.tilemap.spawn_map:
+                    del self.tilemap.spawn_map[tile_loc]
                 # Remove offgrid tiles
                 for tile in self.tilemap.offgrid.copy():
                     tile_img = self.assets[tile['type']][tile['variant']]
@@ -110,6 +119,9 @@ class Editor:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
+                        # Check if tile is a spawn tile
+                        if self.tile_group == 2 and self.tile_variant == 0:
+                            self.spawnner_tile_selected = True
                         self.left_click = True
                         # Allowing off grid tile placement
                         if not self.ongrid:
@@ -121,7 +133,6 @@ class Editor:
                         if event.button == 4:
                             # Modulus loop trick
                             self.tile_variant = (self.tile_variant - 1) % len(self.assets[self.tile_list[self.tile_group]])
-                            
                         if event.button == 5:
                             # Modulus loop trick
                             self.tile_variant = (self.tile_variant + 1) % len(self.assets[self.tile_list[self.tile_group]])
@@ -129,7 +140,6 @@ class Editor:
                         if event.button == 4:
                             # Modulus loop trick
                             self.tile_group = (self.tile_group - 1) % len(self.tile_list)
-                            print(self.tile_group)
                             # To avoid out of index error
                             self.tile_variant = 0
                         if event.button == 5:
@@ -141,6 +151,7 @@ class Editor:
                 if event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
                         self.left_click = False
+                        self.spawnner_tile_selected = False
                     if event.button == 3:
                         self.right_click = False
                 
@@ -153,12 +164,17 @@ class Editor:
                         self.movement[2] = True
                     if event.key == pygame.K_s:
                         self.movement[3] = True
+
                     if event.key == pygame.K_LSHIFT:
                         self.shift = True
+
                     if event.key == pygame.K_g:
                         self.ongrid = not self.ongrid
+
                     # if event.key == pygame.K_t:
                     #     self.tilemap.autotile()
+
+                    # Save map
                     if event.key == pygame.K_e:
                         map_name = str(input('Save map name: '))
                         if not self.rooms:
@@ -167,13 +183,18 @@ class Editor:
                             levels = list(self.rooms.values())
                             self.rooms[map_name] = levels[-1] + 1
                         self.tilemap.save(BASE_MAP_PATH + map_name + '.json')
+
+                    # Open map
                     if event.key == pygame.K_o:
                         map_name = str(input('load map name: '))
                         if map_name in self.rooms:
                             self.load_level(map_name)
+
+                    # Inspect tilemaps
                     if event.key == pygame.K_i:
                         print(f"TileMap: {self.tilemap.tilemap}")
                         print(f"Offgrid_tiles: {self.tilemap.offgrid}")
+                        print(f"Spawn_tiles: {self.tilemap.spawn_map}")
                                     
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a:

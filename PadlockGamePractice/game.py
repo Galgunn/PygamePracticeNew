@@ -27,18 +27,21 @@ class Game():
             'player/walk/up': Animation(load_images('player/walk/up'), frame_dur=10),
         }
             
-        self.player = Player(self, (0, 0), (5, 5))
-        self.movement = [False, False, False, False]
-
         self.tilemap = Tilemap(self, 16)
         self.load_level('kitchen')
 
         spawn_points = []
-        for spawn_point in self.tilemap.extract([('utility', 0)], keep=False):
-            spawn_points.append(pygame.FRect(spawn_point['pos'][0], spawn_point['pos'][1], 16, 16))
+        for loc in self.tilemap.spawn_map:
+            spawn_point = self.tilemap.spawn_map[loc]
+            spawn_points.append(pygame.FRect(spawn_point['pos'][0] * 16, spawn_point['pos'][1] * 16, 16, 16))
+        print(spawn_points)
         
-        self.player.pos[0] = (spawn_points[0].centerx - 2.5)
-        self.player.pos[1] = (spawn_points[0].centery -2.5)
+        self.player = Player(self, (spawn_points[0].centerx, spawn_points[0].centery), (5, 5))
+        self.movement = [False, False, False, False]
+        print(self.player.pos)
+        # pos is key
+        # Want to get player rect center and place it on the center of the spawn tile rect inside of spawn_points
+        self.player.pos
 
         self.scroll = [0, 0]
 
