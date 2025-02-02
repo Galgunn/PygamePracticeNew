@@ -59,6 +59,11 @@ class Tilemap:
                 rects.append(pygame.FRect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
         return rects
     
+    def spawn_rects_in_room(self):
+        for loc in self.spawn_map:
+            tile = self.spawn_map[loc]
+            return tile['pos'] * self.tile_size
+    
     def save(self, path):
         f = open(path, 'w')
         json.dump({'tilemap': self.tilemap, 'tile_size': self.tile_size, 'offgrid': self.offgrid, 'spawns': self.spawn_map}, f)
@@ -75,9 +80,6 @@ class Tilemap:
         self.spawn_map = map_data['spawns']
 
     def render(self, surf, offset=(0, 0)):
-        for tile in self.offgrid:
-            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))
-
         for x in range(offset[0] // self.tile_size, (offset[0] + surf.get_width()) // self.tile_size + 1):
             for y in range(offset[1] // self.tile_size, (offset[1] + surf.get_height()) // self.tile_size + 1):
                 loc = str(x) + ';' + str(y)
@@ -85,10 +87,10 @@ class Tilemap:
                     tile = self.tilemap[loc]
                     surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
 
-    def render_editor(self, surf, offset=(0, 0)):
         for tile in self.offgrid:
             surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))
 
+    def render_editor(self, surf, offset=(0, 0)):
         for x in range(offset[0] // self.tile_size, (offset[0] + surf.get_width()) // self.tile_size + 1):
             for y in range(offset[1] // self.tile_size, (offset[1] + surf.get_height()) // self.tile_size + 1):
                 loc = str(x) + ';' + str(y)
@@ -98,3 +100,6 @@ class Tilemap:
                 if loc in self.spawn_map:
                     tile = self.spawn_map[loc]
                     surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
+
+        for tile in self.offgrid:
+            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))

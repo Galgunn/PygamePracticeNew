@@ -25,8 +25,11 @@ class Entity:
             self.action = action
             self.animation = self.game.assets[self.type + '/' + self.action].copy()
 
-    def move_next_room(self, map_name):
+    def move_next_room(self, map_name, tilemap):
         self.game.load_level(map_name)
+        loc = tilemap.spawn_rects_in_room()
+        self.pos[0] = loc[0]
+        self.pos[1] = loc[1]
             
     def normalize(self, movement):
         magnitude = math.sqrt(pow(movement[0], 2) + pow(movement[1], 2))
@@ -57,10 +60,10 @@ class Entity:
             if entity_rect.colliderect(rect):
                 if frame_movement[0] < 0:
                     if entity_rect.right < rect.centerx:
-                        self.move_next_room('kitchen')
+                        self.move_next_room('kitchen', tilemap)
                 if frame_movement[0] > 0:
                     if entity_rect.left > rect.centerx:
-                        self.move_next_room('living_room')
+                        self.move_next_room('living_room', tilemap)
                     
         self.pos[1] += frame_movement[1]
         entity_rect = self.rect()
