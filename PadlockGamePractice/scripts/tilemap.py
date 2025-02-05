@@ -30,6 +30,16 @@ class Tilemap:
                 matches[-1]['pos'][1] *= self.tile_size
                 if not keep:
                     del self.tilemap[loc]
+        
+        for loc in self.spawn_map.copy():
+            tile = self.spawn_map[loc]
+            if (tile['type'], tile['variant']) in id_pairs:
+                matches.append(tile.copy())
+                matches[-1]['pos'] = matches [-1]['pos'].copy()
+                matches[-1]['pos'][0] *= self.tile_size
+                matches[-1]['pos'][1] *= self.tile_size
+                if not keep:
+                    del self.spawn_map[loc]
 
         return matches
 
@@ -58,11 +68,6 @@ class Tilemap:
             if tile['type'] in UTIL_TILES:
                 rects.append(pygame.FRect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
         return rects
-    
-    def spawn_rects_in_room(self):
-        for loc in self.spawn_map:
-            tile = self.spawn_map[loc]
-            return tile['pos'] * self.tile_size
     
     def save(self, path):
         f = open(path, 'w')

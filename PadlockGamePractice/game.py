@@ -32,6 +32,7 @@ class Game():
         
         self.player = Player(self, (0, 0), (5, 5))
         self.movement = [False, False, False, False]
+        self.player.pos = [150, 100]
 
         self.scroll = [0, 0]
 
@@ -43,8 +44,8 @@ class Game():
         while self.run:
             self.display.fill((100, 200, 100))
 
-            self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
-            self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
+            self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 50
+            self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 50
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
             self.tilemap.render(self.display, offset=render_scroll)
