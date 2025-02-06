@@ -56,17 +56,15 @@ class Entity:
             if entity_rect.colliderect(rect):
                 if frame_movement[0] > 0:
                     entity_rect.right = rect.left
-                    self.collisions['right'] = True
                 if frame_movement[0] < 0:
                     entity_rect.left = rect.right
-                    self.collisions['left'] = True
                 self.pos[0] = entity_rect.x
         for rect in tilemap.utilities_rect_around(self.pos):
             if entity_rect.colliderect(rect):
                 if frame_movement[0] < 0: # Moving left
-                    self.move_next_room('kitchen', tilemap, 'left')
+                    self.collisions['left'] = True
                 if frame_movement[0] > 0: # Moving right
-                    self.move_next_room('living_room', tilemap, 'right')
+                    self.collisions['right'] = True
                     
         self.pos[1] += frame_movement[1]
         entity_rect = self.rect()
@@ -80,6 +78,11 @@ class Entity:
                     self.collisions['up'] = True
                 self.pos[1] = entity_rect.y
 
+        if self.collisions['left'] == True:
+            self.move_next_room('kitchen', tilemap, 'left')
+        if self.collisions['right'] == True:
+            self.move_next_room('living_room', tilemap, 'right')
+            
         if frame_movement[0] > 0:
             self.flip = False
         if frame_movement[0] < 0:
