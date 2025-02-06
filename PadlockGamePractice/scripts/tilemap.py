@@ -62,7 +62,7 @@ class Tilemap:
                     rects.append(pygame.FRect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
         return rects
     
-    def utilities_rect_around(self, pos) -> list:
+    def spawners_rect_around(self, pos) -> list:
         rects = []
         for tile in self.tiles_around(pos, self.spawn_map):
             if tile['type'] in UTIL_TILES:
