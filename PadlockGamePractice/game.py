@@ -3,6 +3,7 @@ import pygame, sys
 from scripts.utils import load_image, load_images, Animation
 from scripts.entities import Entity, Player
 from scripts.tilemap import Tilemap
+from scripts.stateManager import StateManager
 
 WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
@@ -28,8 +29,13 @@ class Game():
         }
             
         self.tilemap = Tilemap(self, 16)
-        self.load_level('living_room')
-        
+        self.states = {
+            'living_room': {'room': 'living_room', 'spawn': 10},
+            'bathroom': self.load_level('bathroom'),
+            'kitchen': self.load_level('kitchen')
+        }
+        self.load_level(self.states['living_room']['room'])
+
         self.player = Player(self, (0, 0), (5, 5))
         self.movement = [False, False, False, False]
         self.player.pos = [150, 100]
@@ -37,7 +43,7 @@ class Game():
         self.scroll = [0, 0]
 
     def load_level(self, map_name):
-        self.tilemap.load('PadlockGamePractice/assets/maps/' + str(map_name) + '.json')
+        self.tilemap.load('PadlockGamePractice/assets/maps/' + str(map_name) + '.json')        
 
     def run(self):
         self.run = True
