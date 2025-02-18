@@ -2,6 +2,7 @@ import sys
 import pygame
 from scripts.utils import load_image, load_images, load_maps
 from scripts.tilemap import Tilemap
+from scripts.spawnner import Spawner
 
 RENDER_SCALE = 2.0
 BASE_MAP_PATH = 'PadlockGamePractice/assets/maps/'
@@ -20,12 +21,13 @@ class Editor:
             'utility': load_images('tiles/utility', (5, 5, 5))
         }
         
-        self.rooms = {}
+        # Load map names of all current map in assets folder
+        self.rooms = []
         maps = load_maps()
-        level = 0
         for room in maps:
-            self.rooms[room] = level
-            level += 1
+            self.rooms.append(room)
+        self.editor_map_name = 'untitled'
+        print(self.rooms)
 
         # Camera movement
         self.movement = [False, False, False, False]
@@ -86,7 +88,8 @@ class Editor:
             if self.left_click and self.ongrid:
                 # Add dict of spawn tile to spawn_map
                 if self.spawnner_tile_selected:
-                    self.tilemap.spawn_map[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
+                    spawn_room_next = input(str('Which room does it lead to: '))
+                    self.tilemap.spawn_map[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos, 'spawn_obj_var': [self.editor_map_name, spawn_room_next]}
                 # Add dict of tile to tilemap
                 else:
                     self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
@@ -121,6 +124,8 @@ class Editor:
                     if event.button == 1:
                         # Check if tile is a spawn tile
                         if self.tile_group == 2 and self.tile_variant == 0:
+                            if self.editor_map_name == 'untitled':
+                                self.editor_map_name = input(str('Please enter map name: '))
                             self.spawnner_tile_selected = True
                         self.left_click = True
                         # Allowing off grid tile placement
@@ -176,17 +181,16 @@ class Editor:
 
                     # Save map
                     if event.key == pygame.K_e:
-                        map_name = str(input('Save map name: '))
-                        if not self.rooms:
-                            self.rooms[map_name] = 0
-                        if map_name not in self.rooms:
-                            levels = list(self.rooms.values())
-                            self.rooms[map_name] = levels[-1] + 1
-                        self.tilemap.save(BASE_MAP_PATH + map_name + '.json')
+                        if self.editor_map_name not in self.rooms:
+                            map_name = str(input('Save map name: '))
+                            self.editor_map_name = map_name
+                        self.tilemap.save(BASE_MAP_PATH + self.editor_map_name + '.json')
+                        print(f'map: {self.editor_map_name} saved')
 
                     # Open map
                     if event.key == pygame.K_o:
                         map_name = str(input('load map name: '))
+                        self.editor_map_name = map_name
                         if map_name in self.rooms:
                             self.load_level(map_name)
 
