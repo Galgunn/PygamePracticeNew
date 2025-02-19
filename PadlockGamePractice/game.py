@@ -29,12 +29,15 @@ class Game():
         }
             
         self.tilemap = Tilemap(self, 16)
+
+        self.state_manager = StateManager('living_room', self.tilemap)
+
         self.states = {
-            'living_room': {'room': 'living_room', 'spawn': 10},
-            'bathroom': self.load_level('bathroom'),
-            'kitchen': self.load_level('kitchen')
+            'living_room': None,
+            'bathroom': None,
+            'kitchen': None
         }
-        self.load_level(self.states['living_room']['room'])
+        self.state_manager.load_map('living_room')
 
         self.player = Player(self, (0, 0), (5, 5))
         self.movement = [False, False, False, False]

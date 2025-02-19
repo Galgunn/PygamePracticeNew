@@ -1,9 +1,11 @@
 class StateManager:
-    def __init__(self, current_state, game) -> None:
+    def __init__(self, current_state, tilemap) -> None:
         self.current_state = current_state
         self.last_state = current_state
-        self.game = game
-        self.player = self.game.player
+        self.tilemap = tilemap
+
+    def load_map(self, map_name):
+        self.tilemap.load('PadlockGamePractice/assets/maps/' + str(map_name) + '.json')
 
     def get_current_state(self):
         return self.current_state
@@ -18,4 +20,3 @@ class StateManager:
     def print_all(self):
         print(self.current_state)
         print(self.last_state)
-        print(self.player)
