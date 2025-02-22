@@ -29,15 +29,7 @@ class Game():
         }
             
         self.tilemap = Tilemap(self, 16)
-
-        self.state_manager = StateManager('living_room', self.tilemap)
-
-        self.states = {
-            'living_room': None,
-            'bathroom': None,
-            'kitchen': None
-        }
-        self.state_manager.load_map('living_room')
+        self.load_level('living_room')
 
         self.player = Player(self, (0, 0), (5, 5))
         self.movement = [False, False, False, False]
@@ -52,6 +44,8 @@ class Game():
         self.run = True
         while self.run:
             self.display.fill((100, 200, 100))
+
+            #print(self.player.last_room)
 
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 50
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 50

@@ -9,6 +9,7 @@ class Tilemap:
     def __init__(self, game, tile_size=16):
         self.game = game
         self.tile_size = tile_size
+        self.tilemap_name = ''
         self.tilemap = {}
         self.offgrid = []
         self.spawn_map = {}
@@ -69,9 +70,15 @@ class Tilemap:
                 rects.append(pygame.FRect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
         return rects
     
-    def save(self, path):
+    def spawners_around(self, pos) -> list:
+        spawns = []
+        for spawn in self.tiles_around(pos, self.spawn_map):
+            spawns.append(spawn)
+        return spawns
+    
+    def save(self, tilemap_name, path):
         f = open(path, 'w')
-        json.dump({'tilemap': self.tilemap, 'tile_size': self.tile_size, 'offgrid': self.offgrid, 'spawns': self.spawn_map}, f)
+        json.dump({'name': tilemap_name, 'tilemap': self.tilemap, 'tile_size': self.tile_size, 'offgrid': self.offgrid, 'spawns': self.spawn_map}, f)
         f.close()
 
     def load(self, path):
@@ -79,6 +86,7 @@ class Tilemap:
         map_data = json.load(f)
         f.close()
 
+        self.tilemap_name = map_data['name']
         self.tilemap = map_data['tilemap']
         self.tile_size = map_data['tile_size']
         self.offgrid = map_data['offgrid']

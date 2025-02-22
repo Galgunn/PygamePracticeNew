@@ -2,7 +2,7 @@ import sys
 import pygame
 from scripts.utils import load_image, load_images, load_maps
 from scripts.tilemap import Tilemap
-from scripts.spawnner import Spawner
+from scripts.spawner import Spawner
 
 RENDER_SCALE = 2.0
 BASE_MAP_PATH = 'PadlockGamePractice/assets/maps/'
@@ -89,7 +89,7 @@ class Editor:
                 # Add dict of spawn tile to spawn_map
                 if self.spawnner_tile_selected:
                     spawn_room_next = input(str('Which room does it lead to: '))
-                    self.tilemap.spawn_map[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos, 'spawn_obj_var': [self.editor_map_name, spawn_room_next]}
+                    self.tilemap.spawn_map[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos, 'spawn_obj_var': spawn_room_next}
                 # Add dict of tile to tilemap
                 else:
                     self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
@@ -181,10 +181,10 @@ class Editor:
 
                     # Save map
                     if event.key == pygame.K_e:
-                        if self.editor_map_name not in self.rooms:
+                        if self.editor_map_name not in load_maps():
                             map_name = str(input('Save map name: '))
                             self.editor_map_name = map_name
-                        self.tilemap.save(BASE_MAP_PATH + self.editor_map_name + '.json')
+                        self.tilemap.save(self.editor_map_name, BASE_MAP_PATH + self.editor_map_name + '.json')
                         print(f'map: {self.editor_map_name} saved')
 
                     # Open map
