@@ -13,7 +13,7 @@ class Game():
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Practicing')
         self.clock = pygame.time.Clock()
-        self.display = pygame.Surface((WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
+        self.display = pygame.Surface((WINDOW_WIDTH / 3, WINDOW_HEIGHT / 3))
 
         self.assets = {
             'player': load_image('player/idle/right/00.png'),
@@ -31,7 +31,7 @@ class Game():
         self.tilemap = Tilemap(self, 16)
         self.load_level('living_room')
 
-        self.player = Player(self, (0, 0), (5, 5))
+        self.player = Player(self, (0, 0), (6, 5))
         self.movement = [False, False, False, False]
         self.player.pos = [150, 100]
 
@@ -47,8 +47,8 @@ class Game():
 
             #print(self.player.last_room)
 
-            self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 50
-            self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 50
+            self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
+            self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
             self.tilemap.render(self.display, offset=render_scroll)

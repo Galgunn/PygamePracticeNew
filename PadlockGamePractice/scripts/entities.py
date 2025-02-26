@@ -38,7 +38,6 @@ class Entity:
         for spawn in spawns:
             spawn_name = spawn.get_room_name()
             if self.last_room == spawn_name:
-                print(spawn_name)
                 if dir == 'left':
                     self.pos = spawn.left_spawnpoint
                 if dir == 'right':
