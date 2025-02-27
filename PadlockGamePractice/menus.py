@@ -7,7 +7,7 @@ WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
-font = pygame.Font(None, 40)
+font = pygame.font.SysFont('Chiller', 100)
 
 class MainMenu():
     def __init__(self):

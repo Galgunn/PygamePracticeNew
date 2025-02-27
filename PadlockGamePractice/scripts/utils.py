@@ -21,7 +21,7 @@ def load_maps():
     return maps
 
 def draw_text(text, font, color, surface, x, y):
-    textobj = font.render(text, 1, color)
+    textobj = font.render(text, False, color)
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)

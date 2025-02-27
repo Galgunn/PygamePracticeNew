@@ -1,0 +1,19 @@
+Description:
+
+a tomodachi pet but with Ramiel!!!
+a way to get used to and work with menus
+
+Gameplay:
+
+- Feed Ramiel
+- Play with Ramiel
+- Make sure Ramiel gets rest
+- If any of the 3 requirements are not met soon Ramiel destroys the world
+
+Assets:
+
+- 1 normal Ramiel pic when Ramiel is well fed, happy, and rested
+- 1 pic when Ramiel is hungry 
+- 1 pic when Ramiel is sleepy 
+- 1 pic when Ramiel is sad
+- 1 pic when Ramiel is ending the world
