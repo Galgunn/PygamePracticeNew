@@ -17,3 +17,9 @@ Assets:
 - 1 pic when Ramiel is sleepy 
 - 1 pic when Ramiel is sad
 - 1 pic when Ramiel is ending the world
+- UI 
+
+Random:
+
+-screen width - 500
+-screen length - 500
