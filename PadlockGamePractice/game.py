@@ -13,7 +13,7 @@ class Game():
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Practicing')
         self.clock = pygame.time.Clock()
-        self.display = pygame.Surface((WINDOW_WIDTH / 3, WINDOW_HEIGHT / 3))
+        self.display = pygame.Surface((WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
 
         self.assets = {
             'player': load_image('player/idle/right/00.png'),
