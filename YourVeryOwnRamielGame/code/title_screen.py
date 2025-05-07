@@ -1,6 +1,6 @@
 from scripts.state import State
 from scripts.utils import draw_text
-from game_world import GameInterface
+from game import Game
 import pygame
 
 class Title(State):
@@ -9,12 +9,12 @@ class Title(State):
         self.title_font = pygame.font.SysFont('mspgothic', 20)
         self.font_surf = self.title_font.render('Start', True, (0, 0, 0), (200, 200, 200))
         self.font_rect = self.font_surf.get_rect()
-        print(self.font_rect)
 
     def update(self):
         mpos = pygame.mouse.get_pos()
+        mpos = (mpos[0] * 2, mpos[1] * 2)
         if self.game.menu_options['enter']:
-            new_state = GameInterface(self.game)
+            new_state = Game(self.game)
             new_state.enter_state()
         if self.game.menu_options['left_click']:
             if self.font_rect.collidepoint(mpos):
