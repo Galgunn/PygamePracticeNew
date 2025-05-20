@@ -1,5 +1,5 @@
 import pygame, sys
-from scripts.utils import draw_text
+from scripts.utils import draw_text, Animation,load_images
 from title_screen import Title
 
 pygame.init()
@@ -18,6 +18,10 @@ class Game():
         self.state_stack = []
         self.font = pygame.font.SysFont('mspgothic', 25)
         self.load_states()
+
+        self.assets = {
+            'start_button': Animation(load_images('titleMenu', (1, 1, 1)), 10, True)
+        }
 
     def run(self):
         while self.running:
