@@ -1,22 +1,25 @@
 import pygame, sys
 from scripts.utils import draw_text, Animation,load_images
 from title_screen import Title
+from game import Game
 
 pygame.init()
 
 WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
 
-class Game():
+class GameLoop():
     def __init__(self):
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Ram')
         self.clock = pygame.time.Clock()
         self.display = pygame.Surface((WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
-        self.menu_options = {'escape': False, 'enter': False, 'left_click': False}
+        self.font = pygame.font.SysFont('mspgothic', 25)
         self.running = True
         self.state_stack = []
-        self.font = pygame.font.SysFont('mspgothic', 25)
+        
+        self.menu_options = {'escape': False, 'enter': False, 'left_click': False}
+        
         self.load_states()
 
         self.assets = {
@@ -62,12 +65,12 @@ class Game():
         self.clock.tick(60)
 
     def load_states(self):
-        self.title_screen = Title(self)
-        self.state_stack.append(self.title_screen)
+        self.game_screen = Title(self)
+        self.state_stack.append(self.game_screen)
 
     def reset_keys(self):
         for option in self.menu_options:
             self.menu_options[option] = False
 
 if __name__ == '__main__':
-    Game().run()
+    GameLoop().run()

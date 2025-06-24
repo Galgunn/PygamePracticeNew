@@ -1,11 +1,18 @@
 from scripts.state import State
 from pause_menu import PauseMenu
 from scripts.utils import draw_text
+import pygame
+
+pygame.init()
 
 class Game(State):
 
     def __init__(self, game):
         super().__init__(game)
+        self.font = self.game.font
+        self.font_rect = self.font.get_rect()
+
+        print(self.font_rect)
 
     def update(self):
         if self.game.menu_options['escape']:
@@ -18,4 +25,5 @@ class Game(State):
 
     def render(self, surf):
         surf.fill((45,30,56))
-        draw_text(surf, self.game.font, 'Gaming!!!', (0,0,0), (0,40))
+        draw_text(surf, self.font, 'click me', (0, 0, 0), (100, 100))
+        #draw_text(surf, self.game.font, 'Gaming!!!', (0,0,0), (0,40))
