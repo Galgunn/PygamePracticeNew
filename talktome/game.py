@@ -28,8 +28,8 @@ class Game():
         }
 
         self.assets = {
-            'red': load_image('characters/red/red.png', (1, 1, 1)).convert_alpha(),
-            'blue': load_image('characters/blue/blue.png', (1, 1, 1)).convert_alpha(),
+            'red': load_image('characters/red/red.png'),
+            'blue': load_image('characters/blue/blue.png'),
             'delighted': load_image('fxs/delighted.png'),
             'suprised': load_image('fxs/suprised.png'),
             'confused': load_image('fxs/confused.png')

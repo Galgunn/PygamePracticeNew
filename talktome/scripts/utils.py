@@ -13,8 +13,8 @@ DISPLAY_LENGTH = 500
 BASE_IMG_PATH = 'talktome/assets/images/'
 FONT = pygame.font.SysFont('consolas', 20)
 
-def load_image(path, colorkey=(0, 0, 0)):
-    img = pygame.image.load(BASE_IMG_PATH + path).convert()
+def load_image(path, colorkey=(1, 1, 1)):
+    img = pygame.image.load(BASE_IMG_PATH + path).convert_alpha()
     img.set_colorkey(colorkey)
     return img
 
